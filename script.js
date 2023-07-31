@@ -143,6 +143,70 @@ function setGenre() {
         highlightedTag.classList.add('highlight');
       })
     }
+
+  }
+
+  function clearBtn() {
+    let clearBtn = document.getElementById('clear');
+    if(clearBtn) {
+      clearBtn.classList.add('higlight')
+    }else{
+
+      let clear = document.createElement('div');
+      clear.classList.add('tag','highlight');
+      clear.id = 'clear';
+      clear.innerText - 'Clear x';
+      clear.addEventListener('click', ()=> {
+        selectedGenre = [];
+        setGenre();
+        getMovies(API_URL);
+      })
+      tagsEl.append(clear);
     }
 
-    
+  }
+
+  getMovies(API_URL);
+
+  function getMovies(url) {
+    lastUrl = url;
+    fetch(url).then(res => res.json()).then(data => {
+      console.log(data.results)
+      if(data.results.length !== 0){
+        showMovies(data.results);
+        currentPage =data.page;
+        nextPage = currentPage + 1;
+        prevPage = currentPage - 1;
+        totalPages = data.total_pages;
+
+        current.innerText = currentPage;
+
+        if(currentPage <=1){
+          prev.classList.add('disabled');
+          next.classList.remove('disabled');
+        }else if(currentPage>= totalPages){
+          prev.classList.remove('disavled');
+          next.classList.add('disabled');
+        }else{
+          prev.classList.remove('disbled');
+          next.classList.add('disabled');
+        }
+
+        tagsEl.scrollIntoView({behavior : 'smoth'})
+
+      }else{
+        main.innerHTML=`<h1 class="no-results"> No Results Found</h1>`
+      }
+
+    })
+
+  }
+
+  function showMovies(data) {
+    main.innerHTML = '';
+
+    data.forEach(movie => {
+      cosnt{title}
+    })
+  }
+
